@@ -18,5 +18,17 @@ async def on_command_error(ctx, error):
 async def say(ctx, *, content:str):
     """have the bot talk"""
     await ctx.send(content)
+    
+@client.command(aliases=['summon'])
+async def join(ctx):
+    """connects bot to vc"""
+    await ctx.author.voice.channel.connect()
+    await ctx.send("i'm in")
+
+@client.command(aliases=['disconnect'])
+async def leave(ctx):
+    """disconnects bot from vc"""
+    await ctx.voice_client.disconnect()
+    await ctx.send("ok bye")  
 
 client.run(TOKEN)
