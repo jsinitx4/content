@@ -1,2 +1,2 @@
 # content
-yamb 2
+music bot made in python
