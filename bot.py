@@ -8,7 +8,7 @@ client = commands.Bot(command_prefix = 'c!')
 @client.event
 async def on_ready():
     print("ready to die")
-    await client.change_presence(status=discord.Status.dnd, activity = discord.Activity(name="little t bg media scary moments", url="https://www.twitch.tv/monstercat", type=discord.ActivityType.streaming))
+    await client.change_presence(status=discord.Status.dnd, activity = discord.Activity(name="bg media epic moments", url="https://www.twitch.tv/monstercat", type=discord.ActivityType.streaming))
 
 @client.event
 async def on_command_error(ctx, error):
@@ -29,6 +29,11 @@ async def join(ctx):
 async def leave(ctx):
     """disconnects bot from vc"""
     await ctx.voice_client.disconnect()
-    await ctx.send("ok bye")  
+    await ctx.send("ok bye") 
+    
+@client.command(aliases=['dev'])
+async def developer(ctx):
+    """who"""
+    await ctx.send("speed#3413")
 
 client.run(TOKEN)
