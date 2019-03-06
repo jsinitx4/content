@@ -13,5 +13,10 @@ async def on_ready():
 @client.event
 async def on_command_error(ctx, error):
     await ctx.send("something happened: `{}`".format(error))
+    
+@client.command(pass_context=True)
+async def say(ctx, *, content:str):
+    """have the bot talk"""
+    await ctx.send(content)
 
 client.run(TOKEN)
