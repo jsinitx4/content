@@ -35,7 +35,7 @@ async def leave(ctx):
     await ctx.voice_client.disconnect()
     await ctx.send("ok bye")
 
-@client.command(aliases=['dev'])
+@client.command(aliases=['dev', 'creator'])
 async def developer(ctx):
     """who"""
     await ctx.send("speed#3413")
