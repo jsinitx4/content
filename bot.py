@@ -1,4 +1,6 @@
 import discord
+import time 
+
 from discord.ext import commands
 
 TOKEN = ' '
@@ -13,12 +15,12 @@ async def on_ready():
 @client.event
 async def on_command_error(ctx, error):
     await ctx.send("something happened: `{}`".format(error))
-    
+
 @client.command(aliases=['talk', 'echo'])
 async def say(ctx, *, content:str):
     """have the bot talk"""
     await ctx.send(content)
-    
+
 @client.command(aliases=['summon'])
 async def join(ctx):
     """connects bot to vc"""
@@ -29,11 +31,19 @@ async def join(ctx):
 async def leave(ctx):
     """disconnects bot from vc"""
     await ctx.voice_client.disconnect()
-    await ctx.send("ok bye") 
-    
+    await ctx.send("ok bye")
+
 @client.command(aliases=['dev'])
 async def developer(ctx):
     """who"""
     await ctx.send("speed#3413")
+
+@client.command(aliases=['latency'])
+async def ping(ctx):
+    """bot latency"""
+    time1 = time.perf_counter()
+    await ctx.channel.trigger_typing()
+    time2 = time.perf_counter()
+    await ctx.send("latency: `{}`ms".format(round((time2-time1)*1000)))
 
 client.run(TOKEN)
