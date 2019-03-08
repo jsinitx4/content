@@ -1,6 +1,8 @@
 import discord
+import random
 import time 
 
+from assets.list import *
 from discord.ext import commands
 
 TOKEN = ' '
@@ -45,5 +47,11 @@ async def ping(ctx):
     await ctx.channel.trigger_typing()
     time2 = time.perf_counter()
     await ctx.send("latency: `{}`ms".format(round((time2-time1)*1000)))
+
+@client.command(name="8ball")
+async def ball(ctx):
+    """ask the bot something and get a bullshit response"""
+    r = random.choice(responses)
+    await ctx.send(r)
 
 client.run(TOKEN)
