@@ -49,7 +49,7 @@ async def ping(ctx):
     await ctx.send("latency: `{}`ms".format(round((time2-time1)*1000)))
 
 @client.command(name="8ball")
-async def ball(ctx):
+async def ball(ctx, question):
     """ask the bot something and get a bullshit response"""
     r = random.choice(responses)
     await ctx.send(r)
