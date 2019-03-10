@@ -1,4 +1,4 @@
-import discord
+import discord #rewrite
 import random
 import time 
 
