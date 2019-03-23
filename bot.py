@@ -5,9 +5,12 @@ import time
 from assets.list import *
 from discord.ext import commands
 
-TOKEN = ' '
+TOKEN = open("token.txt", "r").read()
 
 client = commands.Bot(command_prefix = 'c!')
+
+async def is_owner(ctx):
+    return ctx.author.id == 365274392680333329
 
 @client.event
 async def on_ready():
@@ -23,7 +26,7 @@ async def say(ctx, *, content:str):
     """have the bot talk"""
     await ctx.send(content)
 
-@client.command(aliases=['summon'])
+@client.command(aliases=['summon', 'connect'])
 async def join(ctx):
     """connects bot to vc"""
     await ctx.author.voice.channel.connect()
@@ -53,5 +56,5 @@ async def ball(ctx, question):
     """ask the bot something and get a bullshit response"""
     r = random.choice(responses)
     await ctx.send(r)
-
+    
 client.run(TOKEN)
