@@ -1,6 +1,7 @@
 import discord #rewrite
 import random
 import time 
+import youtube_dl
 
 from assets.list import *
 from discord.ext import commands
@@ -15,7 +16,7 @@ async def is_owner(ctx):
 @client.event
 async def on_ready():
     print("ready to die")
-    await client.change_presence(status=discord.Status.dnd, activity = discord.Activity(name="bg media epic moments", url="https://www.twitch.tv/monstercat", type=discord.ActivityType.streaming))
+    await client.change_presence(activity = discord.Activity(name="aaaaaaaaa", url="https://www.twitch.tv/monstercat", type=discord.ActivityType.streaming))
 
 @client.event
 async def on_command_error(ctx, error):
@@ -56,5 +57,12 @@ async def ball(ctx, question):
     """ask the bot something and get a bullshit response"""
     r = random.choice(responses)
     await ctx.send(r)
-    
+
+@client.command(hidden=True)
+@commands.check(is_owner)
+async def shutdown(ctx):
+    """shuts the bot down"""
+    await ctx.send("Ok")
+    await client.close()
+
 client.run(TOKEN)
