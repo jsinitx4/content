@@ -57,6 +57,11 @@ async def ball(ctx, question):
     """ask the bot something and get a bullshit response"""
     r = random.choice(responses)
     await ctx.send(r)
+    
+@client.command()
+async def github(ctx):
+    """links to github repository"""
+    await ctx.send("https://github.com/jsinitx4/content")
 
 @client.command(hidden=True)
 @commands.check(is_owner)
