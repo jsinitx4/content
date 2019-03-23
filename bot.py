@@ -10,6 +10,8 @@ TOKEN = open("token.txt", "r").read()
 
 client = commands.Bot(command_prefix = 'c!')
 
+# events
+@client.event
 async def is_owner(ctx):
     return ctx.author.id == 365274392680333329
 
@@ -21,7 +23,7 @@ async def on_ready():
 @client.event
 async def on_command_error(ctx, error):
     await ctx.send("something happened: `{}`".format(error))
-
+# actual commands
 @client.command(aliases=['talk', 'echo'])
 async def say(ctx, *, content:str):
     """have the bot talk"""
@@ -57,7 +59,7 @@ async def ball(ctx, question):
     """ask the bot something and get a bullshit response"""
     r = random.choice(responses)
     await ctx.send(r)
-    
+
 @client.command()
 async def github(ctx):
     """links to github repository"""
