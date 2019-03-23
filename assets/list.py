@@ -4,5 +4,7 @@ responses = [
     "uh h h h h h hh hh hh h",
     "nope",
     "idk ask again",
-    "yes(1000)"
+    "yeah",
+    "nah",
+    "I DON'T KNOW MAN WHAT DO YOU WANT FROM ME"
 ]
