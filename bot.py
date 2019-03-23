@@ -1,4 +1,4 @@
-import discord #rewrite
+import discord # rewrite
 import random
 import time 
 import youtube_dl
@@ -62,7 +62,8 @@ async def ball(ctx, question):
 @commands.check(is_owner)
 async def shutdown(ctx):
     """shuts the bot down"""
-    await ctx.send("Ok")
-    await client.close()
+    await ctx.send("bye")
+    await client.logout()
+    # await client.close
 
 client.run(TOKEN)
