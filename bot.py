@@ -16,7 +16,7 @@ async def is_owner(ctx):
 @client.event
 async def on_ready():
     print("ready to die")
-    await client.change_presence(activity = discord.Activity(name="aaaaaaaaa", url="https://www.twitch.tv/monstercat", type=discord.ActivityType.streaming))
+    await client.change_presence(activity = discord.Activity(name="minecraft 😔", url="https://www.twitch.tv/monstercat", type=discord.ActivityType.streaming))
 
 @client.event
 async def on_command_error(ctx, error):
