@@ -71,6 +71,14 @@ async def botinvite(ctx):
     await ctx.author.send("https://speed-is-a.living-me.me/s/gaqo") # is this an ip logger?
     await ctx.send("check your dms thanks")
 
+@client.command()
+async def serverinvite(ctx):
+    """invite your bros :brofist:"""
+    link = await ctx.channel.create_invite(max_age = 86400, max_uses = 0)
+    await ctx.channel.trigger_typing()
+    await ctx.send("invite your bros :brofist:")
+    await ctx.send(link)
+
 @client.command(hidden=True)
 @commands.check(is_owner)
 async def shutdown(ctx):
