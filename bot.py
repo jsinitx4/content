@@ -11,6 +11,7 @@ TOKEN = open("token.txt", "r").read()
 client = commands.Bot(command_prefix = 'c!')
 
 # events
+
 @client.event
 async def is_owner(ctx):
     return ctx.author.id == 365274392680333329
@@ -23,7 +24,9 @@ async def on_ready():
 @client.event
 async def on_command_error(ctx, error):
     await ctx.send("something happened: `{}`".format(error))
+    
 # actual commands
+
 @client.command(aliases=['talk', 'echo'])
 async def say(ctx, *, content:str):
     """have the bot talk"""
@@ -78,6 +81,18 @@ async def serverinvite(ctx):
     await ctx.channel.trigger_typing()
     await ctx.send("invite your bros :brofist:")
     await ctx.send(link)
+
+@client.command()
+async def serverinfo(ctx):
+    """returns server stats"""
+    guild = ctx.guild
+    name = guild.name
+    owner = guild.owner
+    region = guild.region
+    icon = guild.icon_url
+    member = guild.member_count
+    created = guild.created_at
+    await ctx.send("`Guild Name:` " + f"{name}" + "\n`Guild Owner:` " + f"{owner}" + "\n`Guild Region:` " + f"{region}" + "\n`Guild Icon:` " + "`" f"{icon}" + "`" + "\n`Member Count:` " + f"{member}" + " members" + "\n`Guild Creation:` " + f"{created}")
 
 @client.command(hidden=True)
 @commands.check(is_owner)
