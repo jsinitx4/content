@@ -1,2 +1,2 @@
 # content
-music bot made in python
+bot made for discord in discord.py
