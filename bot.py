@@ -1,7 +1,6 @@
 import discord # rewrite
 import random
 import time 
-import youtube_dl
 
 from assets.list import *
 from discord.ext import commands
@@ -93,6 +92,11 @@ async def serverinfo(ctx):
     member = guild.member_count
     created = guild.created_at
     await ctx.send("`Guild Name:` " + f"{name}" + "\n`Guild Owner:` " + f"{owner}" + "\n`Guild Region:` " + f"{region}" + "\n`Guild Icon:` " + "`" f"{icon}" + "`" + "\n`Member Count:` " + f"{member}" + " members" + "\n`Guild Creation:` " + f"{created}")
+
+@client.command()
+async def info(ctx):
+    """commands but on a website"""
+    await ctx.send("https://speed-is-a.living-me.me/s/j936") # is this an ip logger?
 
 @client.command(hidden=True)
 @commands.check(is_owner)
