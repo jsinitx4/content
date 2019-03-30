@@ -6,5 +6,5 @@ responses = [
     "idk ask again",
     "yeah",
     "nah",
-    "I DON'T KNOW MAN WHAT DO YOU WANT FROM ME"
+    "never"
 ]
