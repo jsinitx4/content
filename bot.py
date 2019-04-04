@@ -2,8 +2,8 @@ import discord # rewrite
 import random
 import time 
 
-from assets.list import *
 from discord.ext import commands
+from assets.list import *
 
 TOKEN = open("token.txt", "r").read()
 
@@ -97,6 +97,13 @@ async def serverinfo(ctx):
 async def info(ctx):
     """commands but on a website"""
     await ctx.send("https://speed-is-a.living-me.me/s/j936") # is this an ip logger?
+
+@client.command(hidden=True)
+@commands.check(is_owner)
+async def fetch(ctx):
+    """good dog"""
+    servers = await client.fetch_guilds(limit=25).flatten()
+    await ctx.send("```py\n" + f"{servers}" + "\n```")
 
 @client.command(hidden=True)
 @commands.check(is_owner)
