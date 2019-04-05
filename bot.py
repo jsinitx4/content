@@ -81,6 +81,19 @@ async def serverinvite(ctx):
     await ctx.send("invite your bros :brofist:")
     await ctx.send(link)
 
+@client.command(aliases=['user'])
+async def userinfo(ctx):
+    """returns user stats"""
+    user = ctx.message.mentions[0]
+    name = user.name 
+    userid = user.id
+    discrim = user.discriminator
+    avatar = user.avatar_url
+    activity = user.activity.name
+    bot = user.bot
+    created = user.created_at
+    await ctx.send("`User Name:` " + f"{name}" + "\n`User ID:` " + f"{userid}" + "\n`User Discriminator:` " + f"{discrim}" + "\n`User Avatar:` " + "`" f"{avatar}" + "`" + "\n`User Activity:` " + f"{activity}" + "\n`Bot?` " + f"{bot}" + "\n`User Account Creation Date:` " + f"{created}")
+
 @client.command()
 async def serverinfo(ctx):
     """returns server stats"""
