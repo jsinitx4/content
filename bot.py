@@ -111,6 +111,15 @@ async def info(ctx):
     """commands but on a website"""
     await ctx.send("https://speed-is-a.living-me.me/s/j936") # is this an ip logger?
 
+@client.command(aliases=['prune'])
+async def purge(ctx, *, number:int):
+    """delete this"""
+    if ctx.message.author.guild_permissions.manage_messages:
+            delethis = await ctx.message.channel.purge(limit=number)
+            await ctx.send("purged " + f"{len(delethis)}" + " messages")
+    else:
+        await ctx.send("no permissions to run purge :pensive:")
+
 @client.command(aliases=['banish'])
 async def ban(ctx, member:discord.Member, *, reason:str):
     """*swings ban hammer upon thy*"""
@@ -121,6 +130,8 @@ async def ban(ctx, member:discord.Member, *, reason:str):
         await member.send("ily but you're banned from " + "**" + f"{guild}" + "**" + " now")
         await member.ban(reason=reason)
         await ctx.send("ok banned " + "**" + f"{member}" + "**" + " for " + "**" + f"{reason}" + "**")
+    else:
+        await ctx.send("no permissions to run ban :pensive:")
 
 @client.command()
 async def kick(ctx, member:discord.Member, *, reason:str):
@@ -132,6 +143,8 @@ async def kick(ctx, member:discord.Member, *, reason:str):
         await member.send("ily but you've been kicked from " + "**" + f"{guild}" + "**")
         await member.kick(reason=reason)
         await ctx.send("ok kicked " + "**" + f"{member}" + "**" + " for " + "**" + f"{reason}" + "**")
+    else:
+        await ctx.send("no permissions to run kick :pensive:")
 
 @client.command(hidden=True)
 @commands.check(is_owner)
