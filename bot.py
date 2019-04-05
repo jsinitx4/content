@@ -1,13 +1,25 @@
 import discord # rewrite
-import random
-import time 
 
 from discord.ext import commands
-from assets.list import *
 
 TOKEN = open("token.txt", "r").read()
 
 client = commands.Bot(command_prefix = 'c!')
+
+extensions = [
+    "commands.moderation",
+    "commands.info",
+    "commands.music",
+    "commands.other"
+]
+
+if __name__ == '__main__':
+    for extension in extensions:
+        try:
+            client.load_extension(extension)
+            print(f"{extension}" + " loaded successfully")
+        except Exception as e:
+            print("{} didn't load {}".format(extension, e))
 
 # events
 
@@ -18,133 +30,13 @@ async def is_owner(ctx):
 @client.event
 async def on_ready():
     print("ready to die")
-    await client.change_presence(activity = discord.Activity(name="minecraft 😔", url="https://www.twitch.tv/monstercat", type=discord.ActivityType.streaming))
+    await client.change_presence(activity = discord.Activity(name="minecraft ??", url="https://www.twitch.tv/monstercat", type=discord.ActivityType.streaming))
 
 @client.event
 async def on_command_error(ctx, error):
     await ctx.send("something happened: `{}`".format(error))
     
-# actual commands
-
-@client.command(aliases=['talk', 'echo'])
-async def say(ctx, *, content:str):
-    """have the bot talk"""
-    await ctx.send(content)
-
-@client.command(aliases=['summon', 'connect'])
-async def join(ctx):
-    """connects bot to vc"""
-    await ctx.author.voice.channel.connect()
-    await ctx.send("i'm in")
-
-@client.command(aliases=['disconnect'])
-async def leave(ctx):
-    """disconnects bot from vc"""
-    await ctx.voice_client.disconnect()
-    await ctx.send("ok bye")
-
-@client.command(aliases=['dev', 'creator'])
-async def developer(ctx):
-    """who"""
-    await ctx.send("speed#3413")
-
-@client.command(aliases=['latency'])
-async def ping(ctx):
-    """bot latency"""
-    time1 = time.perf_counter()
-    await ctx.channel.trigger_typing()
-    time2 = time.perf_counter()
-    await ctx.send("latency: `{}`ms".format(round((time2-time1)*1000)))
-
-@client.command(name="8ball")
-async def ball(ctx, question):
-    """ask the bot something and get a bullshit response"""
-    r = random.choice(responses)
-    await ctx.send(r)
-
-@client.command()
-async def github(ctx):
-    """links to github repository"""
-    await ctx.send("https://github.com/jsinitx4/content")
-
-@client.command()
-async def botinvite(ctx):
-    """sends you a shady link"""
-    await ctx.author.send("https://speed-is-a.living-me.me/s/gaqo") # is this an ip logger?
-    await ctx.send("check your dms thanks")
-
-@client.command()
-async def serverinvite(ctx):
-    """invite your bros :brofist:"""
-    link = await ctx.channel.create_invite(max_age = 86400, max_uses = 0)
-    await ctx.channel.trigger_typing()
-    await ctx.send("invite your bros :brofist:")
-    await ctx.send(link)
-
-@client.command(aliases=['user'])
-async def userinfo(ctx):
-    """returns user stats"""
-    user = ctx.message.mentions[0]
-    name = user.name 
-    userid = user.id
-    discrim = user.discriminator
-    avatar = user.avatar_url
-    activity = user.activity.name
-    bot = user.bot
-    created = user.created_at
-    await ctx.send("`User Name:` " + f"{name}" + "\n`User ID:` " + f"{userid}" + "\n`User Discriminator:` " + f"{discrim}" + "\n`User Avatar:` " + "`" f"{avatar}" + "`" + "\n`User Activity:` " + f"{activity}" + "\n`Bot?` " + f"{bot}" + "\n`User Account Creation Date:` " + f"{created}")
-
-@client.command()
-async def serverinfo(ctx):
-    """returns server stats"""
-    guild = ctx.guild
-    name = guild.name
-    owner = guild.owner
-    region = guild.region
-    icon = guild.icon_url
-    member = guild.member_count
-    created = guild.created_at
-    await ctx.send("`Guild Name:` " + f"{name}" + "\n`Guild Owner:` " + f"{owner}" + "\n`Guild Region:` " + f"{region}" + "\n`Guild Icon:` " + "`" f"{icon}" + "`" + "\n`Member Count:` " + f"{member}" + " members" + "\n`Guild Creation:` " + f"{created}")
-
-@client.command()
-async def info(ctx):
-    """commands but on a website"""
-    await ctx.send("https://speed-is-a.living-me.me/s/j936") # is this an ip logger?
-
-@client.command(aliases=['prune'])
-async def purge(ctx, *, number:int):
-    """delete this"""
-    if ctx.message.author.guild_permissions.manage_messages:
-            delethis = await ctx.message.channel.purge(limit=number)
-            await ctx.send("purged " + f"{len(delethis)}" + " messages")
-    else:
-        await ctx.send("no permissions to run purge :pensive:")
-
-@client.command(aliases=['banish'])
-async def ban(ctx, member:discord.Member, *, reason:str):
-    """*swings ban hammer upon thy*"""
-    if member.guild_permissions.manage_messages:
-        await ctx.send("can't ban them they're a mod")
-    elif ctx.message.author.guild_permissions.ban_members:
-        guild = ctx.guild.name
-        await member.send("ily but you're banned from " + "**" + f"{guild}" + "**" + " now")
-        await member.ban(reason=reason)
-        await ctx.send("ok banned " + "**" + f"{member}" + "**" + " for " + "**" + f"{reason}" + "**")
-    else:
-        await ctx.send("no permissions to run ban :pensive:")
-
-@client.command()
-async def kick(ctx, member:discord.Member, *, reason:str):
-    """lol cucked"""
-    if member.guild_permissions.manage_messages:
-        await ctx.send("can't kick them they're a mod")
-    elif ctx.message.author.guild_permissions.ban_members:
-        guild = ctx.guild.name 
-        await member.send("ily but you've been kicked from " + "**" + f"{guild}" + "**")
-        await member.kick(reason=reason)
-        await ctx.send("ok kicked " + "**" + f"{member}" + "**" + " for " + "**" + f"{reason}" + "**")
-    else:
-        await ctx.send("no permissions to run kick :pensive:")
+# commands
 
 @client.command(hidden=True)
 @commands.check(is_owner)
@@ -159,6 +51,6 @@ async def shutdown(ctx):
     """shuts the bot down"""
     await ctx.send("bye")
     await client.logout()
-    # await client.close
+    # await client.close()
 
 client.run(TOKEN)
