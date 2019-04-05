@@ -28,8 +28,8 @@ class Info(commands.Cog):
     async def userinfo(self, ctx, *, user:discord.Member):
         """returns user stats"""
         name = user.name 
-        userid = user.id
         discrim = user.discriminator
+        userid = user.id
         avatar = user.avatar_url
         activity = None
         if user.activity:
@@ -37,7 +37,8 @@ class Info(commands.Cog):
         bot = user.bot
         created = user.created_at
         joined = user.joined_at
-        await ctx.send("`User Name:` " + f"{name}" + "\n`User ID:` " + f"{userid}" + "\n`User Discriminator:` " + f"{discrim}" + "\n`User Avatar:` " + "`" f"{avatar}" + "`" + "\n`User Activity:` " + f"{activity}" + "\n`Bot?` " + f"{bot}" + "\n`User Account Creation Date:` " + f"{created}" + "\n`User Guild Join Date:` " + f"{joined}")
+        nick = user.nick
+        await ctx.send("`User Name:` " + f"{name}" + "\n`User Discriminator:` " + f"{discrim}" + "\n`User ID:` " + f"{userid}""\n`User Avatar:` " + "`" f"{avatar}" + "`" + "\n`User Activity:` " + f"{activity}" + "\n`Bot?` " + f"{bot}" + "\n`User Account Creation Date:` " + f"{created}" + "\n`User Guild Join Date:` " + f"{joined}" + "\n`User Nickname:` " + f"{nick}")
 
     @commands.command()
     async def serverinfo(self, ctx):
