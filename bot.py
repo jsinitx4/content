@@ -111,6 +111,28 @@ async def info(ctx):
     """commands but on a website"""
     await ctx.send("https://speed-is-a.living-me.me/s/j936") # is this an ip logger?
 
+@client.command(aliases=['banish'])
+async def ban(ctx, member:discord.Member, *, reason:str):
+    """*swings ban hammer upon thy*"""
+    if member.guild_permissions.manage_messages:
+        await ctx.send("can't ban them they're a mod")
+    elif ctx.message.author.guild_permissions.ban_members:
+        guild = ctx.guild.name
+        await member.send("ily but you're banned from " + "**" + f"{guild}" + "**" + " now")
+        await member.ban(reason=reason)
+        await ctx.send("ok banned " + "**" + f"{member}" + "**" + " for " + "**" + f"{reason}" + "**")
+
+@client.command()
+async def kick(ctx, member:discord.Member, *, reason:str):
+    """lol cucked"""
+    if member.guild_permissions.manage_messages:
+        await ctx.send("can't kick them they're a mod")
+    elif ctx.message.author.guild_permissions.ban_members:
+        guild = ctx.guild.name 
+        await member.send("ily but you've been kicked from " + "**" + f"{guild}" + "**")
+        await member.kick(reason=reason)
+        await ctx.send("ok kicked " + "**" + f"{member}" + "**" + " for " + "**" + f"{reason}" + "**")
+
 @client.command(hidden=True)
 @commands.check(is_owner)
 async def fetch(ctx):
