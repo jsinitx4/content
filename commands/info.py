@@ -36,7 +36,8 @@ class Info(commands.Cog):
             activity = user.activity.name
         bot = user.bot
         created = user.created_at
-        await ctx.send("`User Name:` " + f"{name}" + "\n`User ID:` " + f"{userid}" + "\n`User Discriminator:` " + f"{discrim}" + "\n`User Avatar:` " + "`" f"{avatar}" + "`" + "\n`User Activity:` " + f"{activity}" + "\n`Bot?` " + f"{bot}" + "\n`User Account Creation Date:` " + f"{created}")
+        joined = user.joined_at
+        await ctx.send("`User Name:` " + f"{name}" + "\n`User ID:` " + f"{userid}" + "\n`User Discriminator:` " + f"{discrim}" + "\n`User Avatar:` " + "`" f"{avatar}" + "`" + "\n`User Activity:` " + f"{activity}" + "\n`Bot?` " + f"{bot}" + "\n`User Account Creation Date:` " + f"{created}" + "\n`User Guild Join Date:` " + f"{joined}")
 
     @commands.command()
     async def serverinfo(self, ctx):
