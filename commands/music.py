@@ -58,7 +58,7 @@ class Music(commands.Cog):
         await ctx.channel.trigger_typing()
         if ctx.voice_client is None:
             await ctx.author.voice.channel.connect()
-        source = await YTDLSource.from_url(url, loop=self.bot.loop)
+        source = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
         ctx.voice_client.play(source, after=lambda e: print('%s' % e) if e else None)
         requester = ctx.author
         await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + ' requester: ' + "**" + f"{requester}" + "**")
