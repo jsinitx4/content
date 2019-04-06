@@ -8,3 +8,11 @@ responses = [
     "nah",
     "never"
 ]
+
+emo = [
+    "i am not an emo european",
+    "remove speed",
+    "bruh sound effect #2",
+    "speed is marco 2",
+    "who wants some nsfw memes"
+]
