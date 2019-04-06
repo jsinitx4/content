@@ -33,5 +33,11 @@ class Other(commands.Cog):
         await ctx.send("invite your bros :brofist:")
         await ctx.send(link)
 
+    @commands.command(aliases=['bruh'])
+    async def square(self, ctx):
+        """bruh"""
+        nigerian = random.choice(emo)
+        await ctx.send(nigerian)
+
 def setup(client):
     client.add_cog(Other(client))
