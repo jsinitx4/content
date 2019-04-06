@@ -58,10 +58,16 @@ class Music(commands.Cog):
         await ctx.channel.trigger_typing()
         if ctx.voice_client is None:
             await ctx.author.voice.channel.connect()
-        source = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+        source = await YTDLSource.from_url(url, loop=self.bot.loop)
         ctx.voice_client.play(source, after=lambda e: print('%s' % e) if e else None)
         requester = ctx.author
         await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + ' requester: ' + "**" + f"{requester}" + "**")
+
+    @commands.command(aliases=['vol', 'v'])
+    async def volume(self, ctx, number:float):
+        """changes the song volume"""
+        ctx.voice_client.source.volume = number / 100
+        await ctx.send("volume set to **{}**%".format(number))
 
     @commands.command()
     async def pause(self, ctx):
@@ -75,7 +81,7 @@ class Music(commands.Cog):
         ctx.voice_client.resume()
         await ctx.send("done resumed")
 
-    @commands.command(aliases=['disconnect'])
+    @commands.command(aliases=['disconnect', 'stop'])
     async def leave(self, ctx):
         """disconnects bot from vc"""
         await ctx.voice_client.disconnect()
