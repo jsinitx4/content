@@ -32,14 +32,14 @@ class YTDLSource(discord.PCMVolumeTransformer):
         self.url = data.get('url')
 
     @classmethod
-    async def from_url(cls, url, *, loop=None, stream=False):
+    async def from_search(cls, search:str, *, loop, stream=False):
         loop = loop or asyncio.get_event_loop()
-        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(search, download=not stream))
 
         if 'entries' in data:
             data = data['entries'][0]
 
-        filename = data['url'] if stream else ytdl.prepare_filename(data)
+        filename = data['url'], data['title'] if stream else ytdl.prepare_filename(data)
         return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
 
 class Music(commands.Cog):
@@ -53,12 +53,12 @@ class Music(commands.Cog):
         await ctx.send("i'm in")
 
     @commands.command(aliases=['p'])
-    async def play(self, ctx, *, url):
+    async def play(self, ctx, *, search:str):
         """plays a song"""
         await ctx.channel.trigger_typing()
         if ctx.voice_client is None:
             await ctx.author.voice.channel.connect()
-        source = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+        source = await YTDLSource.from_search(search, loop=self.bot.loop, stream=False)
         ctx.voice_client.play(source, after=lambda e: print('%s' % e) if e else None)
         requester = ctx.author
         await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + ' requester: ' + "**" + f"{requester}" + "**")
