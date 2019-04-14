@@ -39,5 +39,11 @@ class Other(commands.Cog):
         nigerian = random.choice(emo)
         await ctx.send(nigerian)
 
+    @commands.command(aliases=['removebronx'])
+    async def speed(self, ctx):
+        """m"""
+        brooklyn = random.choice(superior)
+        await ctx.send(brooklyn)
+
 def setup(client):
     client.add_cog(Other(client))
