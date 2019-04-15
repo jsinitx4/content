@@ -52,19 +52,19 @@ class Music(commands.Cog):
         await ctx.author.voice.channel.connect()
         await ctx.send("i'm in")
 
-    @commands.command(aliases=['p'])
+   @commands.command(aliases=['p'])
     async def play(self, ctx, *, search):
         """plays a song"""
         await ctx.channel.trigger_typing()
         if ctx.voice_client is None:
             await ctx.author.voice.channel.connect()
-        source = await YTDLSource.from_search(search, loop=self.bot.loop)
+        source = await YTDLSource.from_search(search, stream=True)
         ctx.voice_client.play(source, after=lambda e: print('%s' % e) if e else None)
         requester = ctx.author
         await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + ' requester: ' + "**" + f"{requester}" + "**")
 
     @commands.command(aliases=['vol', 'v'])
-    async def volume(self, ctx, number:float=None):
+    async def volume(self, ctx, number:float):
         """changes the song volume"""
         ctx.voice_client.source.volume = number / 100
         await ctx.send("volume set to **{}**%".format(number))
