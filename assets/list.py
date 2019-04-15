@@ -1,3 +1,4 @@
+#bad command
 responses = [
     "yes",
     "no",
@@ -9,6 +10,7 @@ responses = [
     "never"
 ]
 
+#square
 emo = [
     "i am not an emo european",
     "remove speed",
@@ -17,6 +19,7 @@ emo = [
     "who wants some nsfw memes"
 ]
 
+#speed
 superior = [
     "brooklyn superior",
     "hi seth",
@@ -35,4 +38,34 @@ superior = [
     "ok, mod",
     ".ahegao @@@@every@@one",
     "shut up square"
+]
+
+#super
+stopgivingmefunctions = [
+    "banime",
+    "gay",
+    "haha yes",
+    "speediv mexico",
+    "speed = small [ CENSORED BY DEV ]",
+    "lion company",
+    "premium mints ex",
+    "fortnite gamer",
+    "gamer boys",
+    "gamer girls",
+    "spood 4",
+    "remix",
+    "lightus",
+    "remove furry",
+    "hi [ CENSORED BY DEV ]",
+    "arsex",
+    "thank",
+    "fortnite is for gays",
+    "lion co",
+    "comer la taco",
+    "robin mexico",
+    "are we the biggest threat to you lately?",
+    "default dance supreme",
+    "va is south not north you gay",
+    "t gay",
+    "[ STOLEN QUOTE ]"
 ]
