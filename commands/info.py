@@ -61,7 +61,7 @@ class Info(commands.Cog):
     @commands.command()
     async def botinvite(self, ctx):
         """sends you a shady link"""
-        await ctx.author.send("https://speed-is-a.living-me.me/s/gaqo") # is this an ip logger?
+        await ctx.author.send("https://discordapp.com/oauth2/authorize?client_id=552616565754036239&permissions=8&scope=bot") # is this an ip logger?
         await ctx.send("check your dms thanks")
 
     @commands.command()
@@ -75,7 +75,7 @@ class Info(commands.Cog):
     @commands.command()
     async def info(self, ctx):
         """commands but on a website"""
-        await ctx.send("https://speed-is-a.living-me.me/s/j936") # is this an ip logger?
+        await ctx.send("https://give-speed-money.ml/otherstuff/content") # is this an ip logger?
 
 def setup(client):
     client.add_cog(Info(client))
