@@ -25,21 +25,21 @@ ffmpeg_options = {
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
 class YTDLSource(discord.PCMVolumeTransformer):
-    def __init__(self, source, *, data, volume=0.7):
+    def __init__(self, source, *, data, volume=0.5):
         super().__init__(source, volume)
         self.data = data
         self.title = data.get('title')
         self.url = data.get('url')
 
     @classmethod
-    async def from_search(cls, search:str, *, loop, stream=False):
+    async def from_search(cls, search, *, loop=None, stream=True):
         loop = loop or asyncio.get_event_loop()
         data = await loop.run_in_executor(None, lambda: ytdl.extract_info(search, download=not stream))
 
         if 'entries' in data:
             data = data['entries'][0]
 
-        filename = data['url'], data['title'] if stream else ytdl.prepare_filename(data)
+        filename = data['url'] if stream else ytdl.prepare_filename(data)
         return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
 
 class Music(commands.Cog):
@@ -53,18 +53,18 @@ class Music(commands.Cog):
         await ctx.send("i'm in")
 
     @commands.command(aliases=['p'])
-    async def play(self, ctx, *, search:str):
+    async def play(self, ctx, *, search):
         """plays a song"""
         await ctx.channel.trigger_typing()
         if ctx.voice_client is None:
             await ctx.author.voice.channel.connect()
-        source = await YTDLSource.from_search(search, loop=self.bot.loop, stream=False)
+        source = await YTDLSource.from_search(search, loop=self.bot.loop)
         ctx.voice_client.play(source, after=lambda e: print('%s' % e) if e else None)
         requester = ctx.author
         await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + ' requester: ' + "**" + f"{requester}" + "**")
 
     @commands.command(aliases=['vol', 'v'])
-    async def volume(self, ctx, number:float):
+    async def volume(self, ctx, number:float=None):
         """changes the song volume"""
         ctx.voice_client.source.volume = number / 100
         await ctx.send("volume set to **{}**%".format(number))
