@@ -31,5 +31,11 @@ class Other(commands.Cog):
         brooklyn = random.choice(superior)
         await ctx.send(brooklyn)
 
+    @commands.command(aliases=['virginia'])
+    async def super(self, ctx):
+        """speed = small [ CENSORED BY DEV ]"""
+        stolenquotes = random.choice(stopgivingmefunctions)
+        await ctx.send(stolenquotes)
+
 def setup(client):
     client.add_cog(Other(client))
