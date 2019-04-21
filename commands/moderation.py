@@ -21,8 +21,8 @@ class Moderation(commands.Cog):
             await ctx.send("can't ban them they're a mod")
         elif ctx.message.author.guild_permissions.ban_members:
             guild = ctx.guild.name
-            await member.send("ily but you're banned from " + "**" + f"{guild}" + "**" + " now")
             await member.ban(reason=reason)
+            await member.send("ily but you're banned from " + "**" + f"{guild}" + "**" + " now")
             await ctx.send("ok banned " + "**" + f"{member}" + "**" + " for " + "**" + f"{reason}" + "**")
         else:
             await ctx.send("no permissions to run ban :pensive:")
@@ -31,7 +31,9 @@ class Moderation(commands.Cog):
     async def unban(self, ctx, *, member:discord.User):
         """unbans rule breaker etc etc"""
         if ctx.message.author.guild_permissions.ban_members:
+            guild = ctx.guild.name
             await ctx.guild.unban(member)
+            await member.send("you've been unbanned on " + "**" + f"{guild}" + "**" + " b")
             await ctx.send("ok boss unbanned " + "**" + f"{member}" + "**")
         else:
             await ctx.send("no permissions to run unban :pensive:")
@@ -43,8 +45,8 @@ class Moderation(commands.Cog):
             await ctx.send("can't kick them they're a mod")
         elif ctx.message.author.guild_permissions.ban_members:
             guild = ctx.guild.name 
-            await member.send("ily but you've been kicked from " + "**" + f"{guild}" + "**")
             await member.kick(reason=reason)
+            await member.send("ily but you've been kicked from " + "**" + f"{guild}" + "**")
             await ctx.send("ok kicked " + "**" + f"{member}" + "**" + " for " + "**" + f"{reason}" + "**")
         else:
             await ctx.send("no permissions to run kick :pensive:")
