@@ -28,6 +28,15 @@ class Moderation(commands.Cog):
             await ctx.send("no permissions to run ban :pensive:")
 
     @commands.command()
+    async def unban(self, ctx, *, member:discord.User):
+        """unbans rule breaker etc etc"""
+        if ctx.message.author.guild_permissions.ban_members:
+            await ctx.guild.unban(member)
+            await ctx.send("ok boss unbanned " + "**" + f"{member}" + "**")
+        else:
+            await ctx.send("no permissions to run unban :pensive:")
+
+    @commands.command()
     async def kick(self, ctx, member:discord.Member, *, reason:str):
         """lol cucked"""
         if member.guild_permissions.manage_messages:
