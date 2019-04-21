@@ -72,7 +72,7 @@ async def unload(ctx, extension):
 @client.command(hidden=True)
 @commands.check(is_owner)
 async def reload(ctx, extension):
-    """disables said extension"""
+    """reloads said extension"""
     try:
         client.unload_extension(extension)
         client.load_extension(extension)
