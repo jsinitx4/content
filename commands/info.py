@@ -53,6 +53,15 @@ class Info(commands.Cog):
         await ctx.send("`Guild Name:` " + f"{name}" + "\n`Guild Owner:` " + f"{owner}" + "\n`Guild Region:` " + f"{region}" + "\n`Guild Icon:` " + "`" f"{icon}" + "`" + "\n`Member Count:` " + f"{member}" + " members" + "\n`Guild Creation:` " + f"{created}")
 
     @commands.command()
+    async def roleinfo(self, ctx, *, role:discord.Role):
+        name = role.name
+        id = role.id
+        color = role.color
+        mention = role.mentionable
+        created = role.created_at
+        await ctx.send("`Role Name:` " + f"{name}" + "\n`Role ID:` " + f"{id}" + "\n`Role Color:` " + f"{color}" + "\n`Mentionable?` " + f"{mention}" + "\n`Role Creation Date:` " + f"{created}")
+
+    @commands.command()
     async def avatar(self, ctx, *, user:discord.Member):
         """returns user avatar"""
         avatar = user.avatar_url 
