@@ -19,12 +19,12 @@ class Info(commands.Cog):
         time2 = time.perf_counter()
         await ctx.send("latency: `{}`ms".format(round((time2-time1)*1000)))
 
-    @commands.command(aliases=['git'])
+    @commands.command()
     async def github(self, ctx):
         """links to github repository"""
         await ctx.send("https://github.com/jsinitx4/content")
 
-    @commands.command(aliases=['user'])
+    @commands.command()
     async def userinfo(self, ctx, *, user:discord.Member):
         """returns user info"""
         name = user.name 
@@ -39,6 +39,16 @@ class Info(commands.Cog):
         joined = user.joined_at
         nick = user.nick
         await ctx.send("`User Name:` " + f"{name}" + "\n`User Discriminator:` " + f"{discrim}" + "\n`User ID:` " + f"{userid}""\n`User Avatar:` " + "`" f"{avatar}" + "`" + "\n`User Activity:` " + f"{activity}" + "\n`Bot?` " + f"{bot}" + "\n`User Account Creation Date:` " + f"{created}" + "\n`User Guild Join Date:` " + f"{joined}" + "\n`User Nickname:` " + f"{nick}")
+
+    @commands.command()
+    async def channelinfo(self, ctx, *, channel:discord.TextChannel):
+        """returns channel info"""
+        name = channel.name 
+        id = channel.id 
+        description = channel.topic
+        nsfw = channel.is_nsfw()
+        created = channel.created_at 
+        await ctx.send("`Channel Name:` " + f"{name}" + "\n`Channel ID:` " + f"{id}" + "\n`Channel Description:` " + f"{description}" + "\n`NSFW?` " + f"{nsfw}" + "\n`Channel Creation Date:` " + f"{created}")
 
     @commands.command()
     async def serverinfo(self, ctx):
