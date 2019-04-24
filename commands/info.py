@@ -62,8 +62,8 @@ class Info(commands.Cog):
         await ctx.send("`Role Name:` " + f"{name}" + "\n`Role ID:` " + f"{id}" + "\n`Role Color:` " + f"{color}" + "\n`Mentionable?` " + f"{mention}" + "\n`Role Creation Date:` " + f"{created}")
 
     @commands.command()
-    async def avatar(self, ctx, *, user:discord.Member):
-        """returns user avatar"""
+    async def avatar(self, ctx, *, user:discord.User):
+        """returns a users avatar"""
         avatar = user.avatar_url 
         await ctx.send(avatar)
 
