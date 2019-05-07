@@ -37,5 +37,10 @@ class Other(commands.Cog):
         stolenquotes = random.choice(stopgivingmefunctions)
         await ctx.send(stolenquotes)
 
+    @commands.command(aliases=['robin'])
+    async def terminal(self, ctx):
+        """:pensi"""
+        await ctx.send(":pensive: <@117678528220233731>")
+
 def setup(client):
     client.add_cog(Other(client))
