@@ -45,7 +45,7 @@ async def fetch(ctx):
     servers = await client.fetch_guilds(limit=25).flatten()
     await ctx.send("```py\n" + f"{servers}" + "\n```")
 
-@client.command(hidden=True)
+@client.command(hidden=True, aliases=['enable'])
 @commands.check(is_owner)
 async def load(ctx, extension):
     """enables said extension"""
@@ -57,7 +57,7 @@ async def load(ctx, extension):
         await ctx.send("{} didn't load successfully: `{}`".format(extension, e))
         print("{} didn't load successfully: {}".format(extension, e))
 
-@client.command(hidden=True)
+@client.command(hidden=True, aliases=['disable'])
 @commands.check(is_owner)
 async def unload(ctx, extension):
     """disables said extension"""
@@ -72,7 +72,7 @@ async def unload(ctx, extension):
 @client.command(hidden=True)
 @commands.check(is_owner)
 async def reload(ctx, extension):
-    """reloads said extension"""
+    """disables said extension"""
     try:
         client.unload_extension(extension)
         client.load_extension(extension)
@@ -88,6 +88,5 @@ async def shutdown(ctx):
     """shuts the bot down"""
     await ctx.send("bye")
     await client.logout()
-    # await client.close()
 
 client.run(TOKEN)
