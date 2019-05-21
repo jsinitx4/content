@@ -1,4 +1,5 @@
 import discord
+import asyncio
 from discord.ext import commands 
 
 class Moderation(commands.Cog):
@@ -13,6 +14,26 @@ class Moderation(commands.Cog):
             await ctx.send("purged " + f"{len(delethis)}" + " messages")
         else:
             await ctx.send("no permissions to run purge :pensive:")
+
+    @commands.command()
+    async def addrole(self, ctx, member:discord.Member, *, name:str):
+        """adds a role to said member"""
+        if ctx.message.author.guild_permissions.manage_roles:
+            role = discord.utils.get(ctx.guild.roles, name=name)
+            await member.add_roles(role)
+            await ctx.send("added " + "**" + f"{name}" + "**" + " role to " + f"{member}")
+        else:
+            await ctx.send("no permissions to run addrole :pensive:")
+
+    @commands.command()
+    async def removerole(self, ctx, member:discord.Member, *, name:str):
+        """removes a role from said member"""
+        if ctx.message.author.guild_permissions.manage_roles:
+            role = discord.utils.get(ctx.guild.roles, name=name)
+            await member.remove_roles(role)
+            await ctx.send("ok removed " + "**" + f"{name}" + "**" + " from " + f"{member}")
+        else:
+            await ctx.send("no permissions to run removerole :pensive:")
 
     @commands.command(aliases=['banish'])
     async def ban(self, ctx, member:discord.Member, *, reason:str):
