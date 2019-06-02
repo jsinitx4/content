@@ -26,6 +26,26 @@ class Moderation(commands.Cog):
             await ctx.send("no permissions to run addrole :pensive:")
 
     @commands.command()
+    async def createrole(self, ctx, *, name:str):
+        """creates a role"""
+        if ctx.message.author.guild_permissions.manage_roles:
+            guild = ctx.guild
+            await guild.create_role(name=name, permissions=guild.default_role.permissions)
+            await ctx.send("created role " + "**" + f"{name}" + "**")
+        else:
+            await ctx.send("no permissions to run createrole :pensive:")
+
+    @commands.command()
+    async def deleterole(self, ctx, *, name:str):
+        """deletes a role"""
+        if ctx.message.author.guild_permissions.manage_roles:
+            role = discord.utils.get(ctx.guild.roles, name=name)
+            await role.delete()
+            await ctx.send("deleted role " + "**" + f"{name}" + "**")
+        else:
+            await ctx.send("no permissions to run deleterole :pensive:")
+
+    @commands.command()
     async def removerole(self, ctx, member:discord.Member, *, name:str):
         """removes a role from said member"""
         if ctx.message.author.guild_permissions.manage_roles:
