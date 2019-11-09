@@ -51,8 +51,8 @@ class Music(commands.Cog):
         """connects bot to vc"""
         await ctx.author.voice.channel.connect()
         await ctx.send("i'm in")
-
-   @commands.command(aliases=['p'])
+		
+    @commands.command(aliases=['p'])
     async def play(self, ctx, *, search):
         """plays a song"""
         await ctx.channel.trigger_typing()
@@ -62,6 +62,12 @@ class Music(commands.Cog):
         ctx.voice_client.play(source, after=lambda e: print('%s' % e) if e else None)
         requester = ctx.author
         await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + ' requester: ' + "**" + f"{requester}" + "**")
+
+    @commands.command(aliases=['s'])
+    async def skip(self, ctx):
+        """skips playing song"""
+        ctx.voice_client.stop()
+        await ctx.send('**' + f"{ctx.author}" + '**' + ' skipped the song')
 
     @commands.command(aliases=['vol', 'v'])
     async def volume(self, ctx, number:float):
