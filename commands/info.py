@@ -91,10 +91,5 @@ class Info(commands.Cog):
         await ctx.send("invite your bros :brofist:")
         await ctx.send(link)
 
-    @commands.command()
-    async def info(self, ctx):
-        """commands but on a website"""
-        await ctx.send("https://give-speed-money.ml/otherstuff/content") # is this an ip logger?
-
 def setup(client):
     client.add_cog(Info(client))
