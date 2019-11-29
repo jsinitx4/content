@@ -35,7 +35,11 @@ async def on_ready():
 @client.event
 async def on_command_error(ctx, error):
     await ctx.send("something happened: `{}`".format(error))
-    
+
+@client.before_invoke
+async def on_command_preprocess(ctx):
+    print(f"{ctx.message.author}" + " (" + f"{ctx.message.author.id}" + ") " + "ran the command: " + f"{ctx.message.content}" + " in the guild: " f"{ctx.message.guild.name}" + " (" + f"{ctx.message.guild.id}" + ")")
+
 # commands
 
 @client.command(hidden=True)

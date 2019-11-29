@@ -15,14 +15,20 @@ ytdl_format_options = {
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0' 
+    'source_address': '0.0.0.0'
 }
 
 ffmpeg_options = {
     'options': '-vn'
 }
 
+ffmpeg_options_earrape = {
+    'options': '-vn -filter:a "volume=100dB"'
+}
+
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
+earrape = False
 
 class YTDLSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, volume=0.5):
@@ -32,7 +38,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
         self.url = data.get('url')
 
     @classmethod
-    async def from_search(cls, search, *, loop=None, stream=True):
+    async def from_search(cls, search:str, *, loop=None, stream=True):
         loop = loop or asyncio.get_event_loop()
         data = await loop.run_in_executor(None, lambda: ytdl.extract_info(search, download=not stream))
 
@@ -40,7 +46,10 @@ class YTDLSource(discord.PCMVolumeTransformer):
             data = data['entries'][0]
 
         filename = data['url'] if stream else ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+        if earrape is True:
+            return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options_earrape), data=data)
+        else:    
+            return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
 
 class Music(commands.Cog):
     def __init__(self, client):
@@ -58,21 +67,46 @@ class Music(commands.Cog):
         await ctx.channel.trigger_typing()
         if ctx.voice_client is None:
             await ctx.author.voice.channel.connect()
-        source = await YTDLSource.from_search(search, stream=True)
+            source = await YTDLSource.from_search(search, stream=True)
         ctx.voice_client.play(source, after=lambda e: print('%s' % e) if e else None)
         requester = ctx.author
-        await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + ' requester: ' + "**" + f"{requester}" + "**")
+        await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + '\nrequested by: ' + "**" + f"{requester}" + "**")
 
     @commands.command(aliases=['s'])
     async def skip(self, ctx):
         """skips playing song"""
-        ctx.voice_client.stop()
-        await ctx.send('**' + f"{ctx.author}" + '**' + ' skipped the song')
+        self.skips = set()
+        self.min = 3
+
+        if not ctx.voice_client.is_playing():
+            return
+
+        if ctx.author.id in self.skips:
+            await ctx.send("you already voted")
+            return
+            
+        else:
+            self.skips.add(ctx.author.id)
+        if len(self.skips) >= int(self.min) or ctx.author.id == 365274392680333329:
+            await ctx.send('done skipped the song')
+            ctx.voice_client.stop()
+            self.skips.clear()
+
+    @commands.command()
+    async def earrape(self, ctx):
+        """increases db of a song to 100"""
+        global earrape
+        if earrape is False:
+            earrape = True
+            return await ctx.send("enabled earrape for the next song")
+        if earrape is True:
+            earrape = False
+            return await ctx.send("disabled earrape for the next song") 
 
     @commands.command(aliases=['vol', 'v'])
     async def volume(self, ctx, number:float):
         """changes the song volume"""
-        ctx.voice_client.source.volume = number / 100
+        ctx.voice_client.source.volume = number
         await ctx.send("volume set to **{}**%".format(number))
 
     @commands.command()

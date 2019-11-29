@@ -9,9 +9,12 @@ class Other(commands.Cog):
         self.bot = client 
 
     @commands.command(aliases=['talk', 'echo'])
-    async def say(self, ctx, *, content:str):
+    async def say(self, ctx, *, message:str):
         """have the bot talk"""
-        await ctx.send(content)
+        if ctx.author == ctx.author.bot:
+            return
+        blocked = message.replace("@everyone", "no lmao")
+        await ctx.send("{}".format(blocked.replace("@here", "no lmao")))
 
     @commands.command(name="8ball")
     async def ball(self, ctx, question):
