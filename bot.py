@@ -47,7 +47,22 @@ async def on_command_preprocess(ctx):
 async def fetch(ctx):
     """good dog"""
     servers = await client.fetch_guilds(limit=25).flatten()
-    await ctx.send("```py\n" + f"{servers}" + "\n```")
+    await ctx.send("aight check your dms b")
+    await ctx.author.send("```py\n" + f"{servers}" + "\n```")
+
+@client.command(hidden=True)
+@commands.check(is_owner)
+async def activity(ctx, activitytype:str, *, status:str):
+    """changes the streaming status"""
+    if activitytype == "s":
+        await client.change_presence(activity = discord.Activity(name=status, url="https://www.twitch.tv/monstercat", type=discord.ActivityType.streaming))
+    elif activitytype == "p":
+        await client.change_presence(activity=discord.Game(name=status))
+    elif activitytype == "l":
+        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=status))
+    elif activitytype == "w":
+        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
+    await ctx.send("done changed the status to " + "**" + status + "**")
 
 @client.command(hidden=True, aliases=['enable'])
 @commands.check(is_owner)
