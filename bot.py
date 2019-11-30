@@ -3,6 +3,7 @@ import discord # rewrite
 from discord.ext import commands
 
 TOKEN = open("token.txt", "r").read()
+blacklist = []
 
 client = commands.Bot(command_prefix = 'c!')
 
@@ -39,6 +40,14 @@ async def on_command_error(ctx, error):
 @client.before_invoke
 async def on_command_preprocess(ctx):
     print(f"{ctx.message.author}" + " (" + f"{ctx.message.author.id}" + ") " + "ran the command: " + f"{ctx.message.content}" + " in the guild: " f"{ctx.message.guild.name}" + " (" + f"{ctx.message.guild.id}" + ")")
+
+@client.event
+async def on_message(message):
+    if message.author.id in blacklist and message.content.startswith('c!'):
+        await message.channel.send("bruh you're blacklisted")
+        print("[blacklist] {} tried running {}".format(message.author, message.content))
+        return
+    await client.process_commands(message)
 
 # commands
 
