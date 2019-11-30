@@ -1,6 +1,9 @@
 import discord # rewrite
+import random
 
 from discord.ext import commands
+from re import match
+from assets.list import *
 
 TOKEN = open("token.txt", "r").read()
 blacklist = []
@@ -43,6 +46,10 @@ async def on_command_preprocess(ctx):
 
 @client.event
 async def on_message(message):
+    if match("<@!?552616565754036239>", message.content) is not None:
+        resp = random.choice(mentionrsp)
+        await message.channel.send(resp)
+
     if message.author.id in blacklist and message.content.startswith('c!'):
         await message.channel.send("bruh you're blacklisted")
         print("[blacklist] {} tried running {}".format(message.author, message.content))

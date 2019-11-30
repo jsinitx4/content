@@ -28,11 +28,11 @@ class Other(commands.Cog):
         nigerian = random.choice(emo)
         await ctx.send(nigerian)
 
-    @commands.command(aliases=['removebronx'])
-    async def speed(self, ctx):
-        """m"""
-        brooklyn = random.choice(superior)
-        await ctx.send(brooklyn)
+    @commands.command(aliases=['removebrooklyn', 'ahegao', 'rhymix'])
+    async def ron(self, ctx):
+        """Let's have sex"""
+        bruh = random.choice(ron)
+        await ctx.send(bruh)
 
     @commands.command(aliases=['virginia'])
     async def super(self, ctx):

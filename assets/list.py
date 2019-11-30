@@ -1,3 +1,15 @@
+#when mentioned
+mentionrsp = [
+    "what",
+    "gucci gucci",
+    "ok buddy",
+    "ok retard",
+    "w",
+    "Ok",
+    "cum",
+    "Thanks"
+]
+
 #bad command
 responses = [
     "yes",
@@ -19,25 +31,28 @@ emo = [
     "who wants some nsfw memes"
 ]
 
-#speed
-superior = [
-    "brooklyn superior",
-    "hi seth",
-    "Rhyfomos",
-    "remove robin",
-    "i love being a mom but it's tough when my kids come home filthy from radical islamic terrorism",
-    ":^)",
-    "irrelevant emo <@372078453236957185>",
-    "square emo european",
-    "wholesome ops :pray:",
-    "<:okretard:517885620048363523>",
-    "Bored? Eat your cum",
-    "remove bronx",
-    "seth is still sucking his mic",
-    "retard",
-    "ok, mod",
-    ".ahegao @@@@every@@one",
-    "shut up square"
+#HAHAHAHAHAY
+ron = [
+    "bro\nu look like my hot cousin sharqeisha :heart_eyes:",
+    ":couple_ww:",
+    "Ajax Chat",
+    "AJAX EMOTW",
+    "566 blonde lesbians must be killed",
+    "Let's have sex",
+    "wakey wakey :yum:",
+    "You have down penis syndrome",
+    "I like pussy and tits",
+    "Ajax Penis",
+    "super is getting older :stuck_out_tongue_closed_eyes::heart_eyes::heart_eyes:",
+    "my phone' screen\nWas Super's lesbian face\n:nauseated_face:",
+    "oh god that almost killed my laptop",
+    "asshole\naka\nSPEEDIV...",
+    "Send me the Ajax forehead",
+    "I don’t have a penis",
+    "I’d have some chick suck me off the ngl",
+    "Nigga I’m no exhibitionist stop with that bs",
+    "Ur mom had the best climax ever when I fucked her with my 10 inch dick",
+    "I agree with statement above (speediv statement)"
 ]
 
 #super
