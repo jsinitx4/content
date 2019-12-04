@@ -1,5 +1,6 @@
-import discord
-import time 
+iimport discord
+import time
+
 from discord.ext import commands 
 
 class Info(commands.Cog):
@@ -70,6 +71,13 @@ class Info(commands.Cog):
         mention = role.mentionable
         created = role.created_at
         await ctx.send("`Role Name:` " + f"{name}" + "\n`Role ID:` " + f"{id}" + "\n`Role Color:` " + f"{color}" + "\n`Mentionable?` " + f"{mention}" + "\n`Role Creation Date:` " + f"{created}")
+
+    @commands.command()
+    async def botinfo(self, ctx):
+        guilds = str(len(self.bot.guilds))
+        dev = "speed#3413"
+        versionpy = discord.__version__
+        await ctx.send("`Guild Size:` " + f"{guilds}" + " servers" + "\n`Developer:` " + dev + "\n`discord.py version:` " + versionpy)
 
     @commands.command()
     async def avatar(self, ctx, *, user:discord.User):
