@@ -1,0 +1,19 @@
+body
+{
+    margin: 0%;
+    color: white;
+    background: #000000;
+    font-family: Calibri Light;
+    text-align: center;
+}
+
+h1
+{
+	font-size: 50px;
+}
+
+a
+{
+	color: #CCCCCC;
+	text-decoration: none;
+}
