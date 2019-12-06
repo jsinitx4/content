@@ -1,4 +1,4 @@
-iimport discord
+import discord
 import time
 
 from discord.ext import commands 
@@ -98,6 +98,11 @@ class Info(commands.Cog):
         await ctx.channel.trigger_typing()
         await ctx.send("invite your bros :brofist:")
         await ctx.send(link)
+		
+    @commands.command()
+    async def website(self, ctx):
+        """more info about content"""
+        await ctx.send("http://contentbot.cf/")
 
 def setup(client):
     client.add_cog(Info(client))
