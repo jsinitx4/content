@@ -102,7 +102,7 @@ class Info(commands.Cog):
     @commands.command()
     async def website(self, ctx):
         """more info about content"""
-        await ctx.send("http://contentbot.cf/")
+        await ctx.send("https://contentbot.cf/")
 
 def setup(client):
     client.add_cog(Info(client))
