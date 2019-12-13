@@ -1,7 +1,6 @@
 import asyncio
 import discord 
 import youtube_dl
-import os
 
 from discord.ext import commands
 
@@ -70,7 +69,7 @@ class Music(commands.Cog):
         await ctx.channel.trigger_typing()
         if ctx.voice_client is None:
             await ctx.author.voice.channel.connect()
-            source = await YTDLSource.from_search(search, stream=True)
+        source = await YTDLSource.from_search(search, stream=True)
         ctx.voice_client.play(source, after=lambda e: print('%s' % e) if e else None)
         requester = ctx.author
         await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + '\nrequested by: ' + "**" + f"{requester}" + "**")
@@ -78,22 +77,8 @@ class Music(commands.Cog):
     @commands.command(aliases=['s'])
     async def skip(self, ctx):
         """skips playing song"""
-        self.skips = set()
-        self.min = 3
-
-        if not ctx.voice_client.is_playing():
-            return
-
-        if ctx.author.id in self.skips:
-            await ctx.send("you already voted")
-            return
-            
-        else:
-            self.skips.add(ctx.author.id)
-        if len(self.skips) >= int(self.min) or ctx.author.id == 365274392680333329:
-            await ctx.send('done skipped the song')
-            ctx.voice_client.stop()
-            self.skips.clear()
+        ctx.voice_client.stop()
+        await ctx.send('**' + f"{ctx.author}" + '**' + ' skipped the song')
 
     @commands.command()
     async def earrape(self, ctx):
