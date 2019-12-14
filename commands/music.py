@@ -33,14 +33,16 @@ ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 earrape = False
 
 class YTDLSource(discord.PCMVolumeTransformer):
-    def __init__(self, source, *, data, volume=0.5):
+    def __init__(self, source, *, data, requester, volume=0.5):
         super().__init__(source, volume)
         self.data = data
+        self.requester = requester
+
         self.title = data.get('title')
         self.url = data.get('url')
 
     @classmethod
-    async def from_search(cls, search:str, *, loop=None, stream=True):
+    async def from_search(cls, ctx, search:str, *, loop=None, stream=True):
         loop = loop or asyncio.get_event_loop()
         data = await loop.run_in_executor(None, lambda: ytdl.extract_info(search, download=not stream))
 
@@ -48,14 +50,43 @@ class YTDLSource(discord.PCMVolumeTransformer):
             data = data['entries'][0]
 
         filename = data['url'] if stream else ytdl.prepare_filename(data)
+
         if earrape is True:
-            return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options_earrape), data=data)
+            return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options_earrape), data=data, requester=ctx.author)
         else:    
-            return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+            return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data, requester=ctx.author)
+
+class Queue():
+    def __init__(self, client, voice_client, channel):
+        self.bot = client
+        self.queue = asyncio.Queue()
+        self.voice_client = voice_client
+        self.channel = channel
+        self.next = asyncio.Event()
+        self.queues = []
+        self.current = None
+        self.task = self.bot.loop.create_task(self.player_loop())
+
+    async def player_loop(self):
+        while True:
+            self.next.clear()
+            source = await self.queue.get()
+            self.voice_client.play(source, after=lambda _: self.bot.loop.call_soon_threadsafe(self.next.set))
+            await self.channel.send(f'now playing: **{source.title}**\nrequested by: **{source.requester}**')
+            await self.next.wait()
+            source.cleanup()
 
 class Music(commands.Cog):
     def __init__(self, client):
         self.bot = client
+        self.players = {}
+
+    def get_player(self, ctx):
+        player = self.players.get(ctx.guild.id)
+        if player is None:
+            player = Queue(self.bot, ctx.voice_client, ctx.channel)
+            self.players[ctx.guild.id] = player
+        return player
 
     @commands.command(aliases=['summon', 'connect'])
     async def join(self, ctx):
@@ -64,15 +95,16 @@ class Music(commands.Cog):
         await ctx.send("i'm in")
 		
     @commands.command(aliases=['p'])
-    async def play(self, ctx, *, search):
+    async def play(self, ctx, *, search:str):
         """plays a song"""
         await ctx.channel.trigger_typing()
         if ctx.voice_client is None:
             await ctx.author.voice.channel.connect()
-        source = await YTDLSource.from_search(search, stream=True)
-        ctx.voice_client.play(source, after=lambda e: print('%s' % e) if e else None)
+        player = self.get_player(ctx)
+        source = await YTDLSource.from_search(ctx, search, loop=self.bot.loop, stream=True)
+        await player.queue.put(source)
         requester = ctx.author
-        await ctx.send('playing: ' + "**" + f"{source.title}" + "**" + '\nrequested by: ' + "**" + f"{requester}" + "**")
+        await ctx.send('queued: ' + "**" + f"{source.title}" + "**" + '\nrequested by: ' + "**" + f"{requester}" + "**")
 
     @commands.command(aliases=['s'])
     async def skip(self, ctx):
@@ -103,7 +135,7 @@ class Music(commands.Cog):
         ctx.voice_client.pause()
         await ctx.send("done paused")
 
-    @commands.command()
+    @commands.command(aliases=['unpause'])
     async def resume(self, ctx):
         """resumes playing the paused song"""
         ctx.voice_client.resume()
