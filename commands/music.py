@@ -75,6 +75,7 @@ class Queue():
             await self.channel.send(f'now playing: **{source.title}**\nrequested by: **{source.requester}**')
             await self.next.wait()
             source.cleanup()
+            
 
 class Music(commands.Cog):
     def __init__(self, client):
@@ -87,6 +88,12 @@ class Music(commands.Cog):
             player = Queue(self.bot, ctx.voice_client, ctx.channel)
             self.players[ctx.guild.id] = player
         return player
+
+    async def clean(self, guild):
+        try:
+            del self.players[guild.id]
+        except KeyError:
+            pass
 
     @commands.command(aliases=['summon', 'connect'])
     async def join(self, ctx):
@@ -106,9 +113,19 @@ class Music(commands.Cog):
         requester = ctx.author
         await ctx.send('queued: ' + "**" + f"{source.title}" + "**" + '\nrequested by: ' + "**" + f"{requester}" + "**")
 
+    @commands.command()
+    async def clear(self, ctx):
+        """clears the queue"""
+        if not ctx.voice_client or not ctx.voice_client.is_connected():
+            return await ctx.send('nothing is playing')
+        await self.clean(ctx.guild)
+        await ctx.send("cleared the queue")
+
     @commands.command(aliases=['s'])
     async def skip(self, ctx):
         """skips playing song"""
+        if not ctx.voice_client or not ctx.voice_client.is_connected():
+            return await ctx.send('nothing is playing')
         ctx.voice_client.stop()
         await ctx.send('**' + f"{ctx.author}" + '**' + ' skipped the song')
 
@@ -126,18 +143,24 @@ class Music(commands.Cog):
     @commands.command(aliases=['vol', 'v'])
     async def volume(self, ctx, number:float):
         """changes the song volume"""
+        if not ctx.voice_client or not ctx.voice_client.is_connected():
+            return await ctx.send('nothing is playing')
         ctx.voice_client.source.volume = number
         await ctx.send("volume set to **{}**%".format(number))
 
     @commands.command()
     async def pause(self, ctx):
         """pauses the playing song"""
+        if not ctx.voice_client or not ctx.voice_client.is_connected():
+            return await ctx.send('nothing is playing')
         ctx.voice_client.pause()
         await ctx.send("done paused")
 
     @commands.command(aliases=['unpause'])
     async def resume(self, ctx):
         """resumes playing the paused song"""
+        if not ctx.voice_client or not ctx.voice_client.is_connected():
+            return await ctx.send('nothing is playing')
         ctx.voice_client.resume()
         await ctx.send("done resumed")
 
