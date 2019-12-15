@@ -71,6 +71,7 @@ class Queue():
         while True:
             self.next.clear()
             source = await self.queue.get()
+            self.current = source
             self.voice_client.play(source, after=lambda _: self.bot.loop.call_soon_threadsafe(self.next.set))
             await self.channel.send(f'now playing: **{source.title}**\nrequested by: **{source.requester}**')
             await self.next.wait()
@@ -111,6 +112,14 @@ class Music(commands.Cog):
         await player.queue.put(source)
         requester = ctx.author
         await ctx.send('queued: ' + "**" + f"{source.title}" + "**" + '\nrequested by: ' + "**" + f"{requester}" + "**")
+
+    @commands.command(aliases=['nowplaying'])
+    async def np(self, ctx):
+        """provides info on current playing song"""
+        player = self.get_player(ctx)
+        if not player.current:
+            return await ctx.send('nothing is playing')
+        await ctx.send(f'currently playing: **{ctx.voice_client.source.title}**\nrequested by: **{ctx.voice_client.source.requester}**')
 
     @commands.command()
     async def clear(self, ctx):
