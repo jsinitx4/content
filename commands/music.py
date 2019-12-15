@@ -74,8 +74,7 @@ class Queue():
             self.voice_client.play(source, after=lambda _: self.bot.loop.call_soon_threadsafe(self.next.set))
             await self.channel.send(f'now playing: **{source.title}**\nrequested by: **{source.requester}**')
             await self.next.wait()
-            source.cleanup()
-            
+            source.cleanup()    
 
 class Music(commands.Cog):
     def __init__(self, client):

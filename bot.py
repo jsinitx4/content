@@ -117,6 +117,28 @@ async def reload(ctx, extension):
         await ctx.send("{} didn't reload successfully: `{}`".format(extension, e))
         print("{} didn't reload successfully: {}".format(extension, e))
 
+# you will be blacklisted if you abuse this etc etc
+@client.command()
+async def suggest(ctx, *, suggestion:str):
+    """suggest a feature"""
+    user = client.get_user(365274392680333329)
+    await user.send(f"suggestion from **{ctx.author} ({ctx.author.id})**: {suggestion}")
+    await ctx.send("ok your suggestion has been sent to the bot dev")
+
+@client.command(hidden=True)
+@commands.check(is_owner)
+async def dm(ctx, id:int, *, message:str):
+    """sends a message to a user"""
+    await client.get_user(id).send(message)
+    await ctx.send(f"sent a dm to: **{id}**")
+
+@client.command(hidden=True)
+@commands.check(is_owner)
+async def cm(ctx, id:int, *, message:str):
+    """sends a message to a channel"""
+    await client.get_channel(id).send(message)
+    await ctx.send(f"sent a message to channel: **{id}**")
+
 @client.command(hidden=True)
 @commands.check(is_owner)
 async def shutdown(ctx):
