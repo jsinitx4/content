@@ -10,5 +10,5 @@
 ### Contact and Support
 *If you have any issues with the bot you may DM speed#3413*
 
-### Website
-*[content website](https://contentbot.cf/)*
+### Other Links
+*- [Content Website](https://contentbot.cf/)*
