@@ -8,7 +8,7 @@
 *[This invite link invites content to your server.](https://discordapp.com/oauth2/authorize?client_id=552616565754036239&permissions=8&scope=bot)*
 
 ### Contact and Support
-*If you have any issues with the bot you may DM **speed#3413** *
+*If you have any issues with the bot you may DM speed#3413*
 
 ### Website
 *[content website](https://contentbot.cf/)*
